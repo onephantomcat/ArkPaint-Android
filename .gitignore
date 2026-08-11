@@ -27,3 +27,11 @@ screenshots/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Android build environment and artifacts
+android/.gradle/
+android/local.properties
+android/app/build/
+android/captures/
+*.apk
+*.aab

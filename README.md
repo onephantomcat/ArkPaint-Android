@@ -5,6 +5,29 @@
 
 ArkPaint 是一款基于 PySide6 的桌面工具，可导入图片并将其映射到 ArkPaint 的 40 色调色板，然后通过 TCP ADB 将结果绘制到 Android 设备的 24×24 画布上。
 
+## 来源与致谢
+
+本仓库以 [Eraser2333/ArkPaint](https://github.com/Eraser2333/ArkPaint) 为参考代码仓库，并在其基础上增加可独立安装的原生 Android 版本及小米 Pad 7 / HyperOS 2 适配。上游仓库当前未包含明确的 `LICENSE` 文件；公开分发或再授权前，请先向原作者确认许可。明日方舟及相关素材、商标归其各自权利人所有。
+
+## Android APK
+
+仓库的 `android/` 目录包含原生 Android 版本。它不需要电脑、ADB 或 root，在设备本地完成图片映射，并通过由用户主动启用的无障碍悬浮绘制器执行固定的点击与滑动脚本。
+
+主要能力：
+
+- Android 11（API 30）及以上
+- 系统文件选择器导入图片，支持 EXIF 方向
+- 可拖动/缩放的方形裁剪或整图拉伸、分级 Lanczos 清晰缩放、可调锐化、1～4 格像素合并、透明底色和抖动
+- RGB、加权 RGB、CIE Lab、CIEDE2000、OKLab 五种 40 色映射方法
+- 设备内截图验证、五点坐标校准、单指顺序点击、调色板滚动和白色格跳过
+- 悬浮条真正的暂停/继续、独立停止按钮与“音量减”紧急停止
+- 小米 HyperOS 悬浮窗备用权限、启动重试与设备内故障诊断
+- 校准误点外侧角标时自动吸附真实画布边缘，兼容 3200×2136 高分辨率网格
+- 自动识别调色板页、固定宽度进度与 ETA、原任务继续、停止后续画、最终逐格核对和有限次补画
+- 不申请网络权限，截图与图案只保存在本机
+
+直接安装和使用说明见 [`android/README.md`](android/README.md)。
+
 ## 从源码运行
 
 需要安装 Python 3.11 或更高版本。
@@ -60,6 +83,8 @@ src/arkpaint/adb/         TCP ADB 直连模块
 src/arkpaint/imaging/     调色板映射与屏幕检测
 src/arkpaint/drawing/     支持取消的画布绘制模块
 src/arkpaint/gui/         PySide6 界面、后台任务与主窗口
+android/                  可独立构建、安装的原生 Android 应用
 scripts/build_exe.py      可复现的便携版构建脚本
+scripts/build_android.ps1 Android debug APK 构建脚本
 testpic/                  测试图片
 ```

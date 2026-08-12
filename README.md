@@ -8,10 +8,10 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 
 ## 直接下载
 
-- **APK：** [ArkPaint-v1.0.5-XiaomiPad7-pause-fix.apk](https://github.com/onephantomcat/ArkPaint-Android/releases/download/android-v1.0.5/ArkPaint-v1.0.5-XiaomiPad7-pause-fix.apk)
-- **版本：** `1.0.5-android`（versionCode `7`）
+- **APK：** [ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk](https://github.com/onephantomcat/ArkPaint-Android/releases/download/android-v1.1.0/ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk)
+- **版本：** `1.1.0-android`（versionCode `8`）
 - **系统要求：** Android 11（API 30）及以上
-- **SHA-256：** `D7E3C532F567B2984A828B528D8B823E55821BCE1680722BA3E9A7323D3C9BCD`
+- **SHA-256：** `520CC5498AC3108CD5859E275EF7DB9F70E664205A0922C1C22793A529D32A75`
 
 > 当前公开 APK 使用 Android Debug 证书和 APK Signature Scheme v2 签名，定位为测试侧载包。安装、升级和签名注意事项见 [APK 安装与校验说明](docs/APK_GUIDE.md)。
 
@@ -19,7 +19,7 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 
 1. 安装 APK，打开 ArkPaint 并点击“导入图片”。
 2. 在裁剪器中单指拖动、双指缩放，点击“使用此区域”。
-3. 调整清晰度和颜色参数，点击“保存给绘制器”。
+3. 调整清晰度和颜色参数；需要时进入“手动修整”逐格修改，再点击“保存给绘制器”。
 4. 小米设备先开启“悬浮窗权限（备用）”，再开启“ArkPaint 悬浮绘制器”无障碍服务。
 5. 进入横屏画像册创作页，把 24×24 画布缩到最小并把调色板滚到顶部。
 6. 在悬浮条依次执行“校准”→“验证”→“绘制”。绘制中可暂停、继续或停止。

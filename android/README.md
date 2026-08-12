@@ -2,9 +2,9 @@
 
 这是 ArkPaint 的原生 Android 版本，可直接构建为 APK 并安装到手机。图像处理、截图和自动绘制均在设备本地完成；应用没有声明网络权限。
 
-当前源码版本为 `1.1.0-android`。已经发布的上一测试版：
+当前测试版本为 `1.1.0-android`（versionCode `8`）：
 
-- [下载 ArkPaint Android v1.0.5](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.0.5)
+- [下载 ArkPaint Android v1.1.0](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.0)
 - [查看 v1.1.0 版本说明](../docs/releases/android-v1.1.0.md)
 - [APK 安装与校验说明](../docs/APK_GUIDE.md)
 - [软件完整使用说明](../docs/USER_GUIDE.md)

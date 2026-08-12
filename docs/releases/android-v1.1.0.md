@@ -6,7 +6,7 @@
 
 ## 安装包
 
-- 文件：`ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk`
+- 文件：[ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk](https://github.com/onephantomcat/ArkPaint-Android/releases/download/android-v1.1.0/ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk)
 - 版本：`1.1.0-android`（versionCode `8`）
 - 应用包名：`com.eraser2333.arkpaint`
 - 最低系统：Android 11（API 30）
@@ -43,9 +43,9 @@
 
 ## 使用文档
 
-- [APK 安装、升级、签名与完整性校验](../APK_GUIDE.md)
-- [软件完整使用说明](../USER_GUIDE.md)
-- [Android 源码构建说明](../../android/README.md)
+- [APK 安装、升级、签名与完整性校验](https://github.com/onephantomcat/ArkPaint-Android/blob/main/docs/APK_GUIDE.md)
+- [软件完整使用说明](https://github.com/onephantomcat/ArkPaint-Android/blob/main/docs/USER_GUIDE.md)
+- [Android 源码构建说明](https://github.com/onephantomcat/ArkPaint-Android/blob/main/android/README.md)
 
 ## 来源说明
 

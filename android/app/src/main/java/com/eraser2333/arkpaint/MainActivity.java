@@ -24,6 +24,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.eraser2333.arkpaint.automation.ArkPaintAccessibilityService;
 import com.eraser2333.arkpaint.automation.Calibration;
@@ -34,6 +38,7 @@ import com.eraser2333.arkpaint.imaging.Palette;
 import com.eraser2333.arkpaint.imaging.ProcessedPattern;
 import com.eraser2333.arkpaint.imaging.ProcessingOptions;
 import com.eraser2333.arkpaint.ui.CropImageView;
+import com.eraser2333.arkpaint.ui.PaletteUsageView;
 import com.eraser2333.arkpaint.ui.PixelPreviewView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.materialswitch.MaterialSwitch;
@@ -54,6 +59,7 @@ public final class MainActivity extends AppCompatActivity {
 
     private PatternStore patternStore;
     private PixelPreviewView previewView;
+    private PaletteUsageView paletteUsageView;
     private TextView imageStatus;
     private TextView colorCount;
     private TextView serviceStatus;
@@ -69,12 +75,14 @@ public final class MainActivity extends AppCompatActivity {
     private Spinner mergeSpinner;
     private Spinner transparentSpinner;
     private MaterialSwitch ditherSwitch;
+    private MaterialSwitch showNumbersSwitch;
     private SeekBar sharpnessSeek;
     private SeekBar brightnessSeek;
     private SeekBar contrastSeek;
     private SeekBar saturationSeek;
     private SeekBar tapDelaySeek;
     private Button exportButton;
+    private Button editButton;
     private Button cropButton;
     private Button prepareButton;
     private Button overlayPermissionButton;
@@ -82,6 +90,7 @@ public final class MainActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<String[]> imagePicker;
     private ActivityResultLauncher<String> imageExporter;
+    private ActivityResultLauncher<Intent> pixelEditor;
     private Bitmap sourceBitmap;
     private Bitmap croppedBitmap;
     private ProcessedPattern processedPattern;
@@ -90,7 +99,9 @@ public final class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         setContentView(R.layout.activity_main);
+        applySystemBarInsets(findViewById(R.id.mainRoot));
         patternStore = new PatternStore(this);
         bindViews();
         setupLaunchers();
@@ -101,13 +112,14 @@ public final class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             String savedUri = savedInstanceState.getString(STATE_IMAGE_URI);
             if (savedUri != null) {
-                loadImage(Uri.parse(savedUri));
+                loadImage(Uri.parse(savedUri), false, processedPattern == null);
             }
         }
     }
 
     private void bindViews() {
         previewView = findViewById(R.id.pixelPreview);
+        paletteUsageView = findViewById(R.id.paletteUsage);
         imageStatus = findViewById(R.id.imageStatus);
         colorCount = findViewById(R.id.colorCount);
         serviceStatus = findViewById(R.id.serviceStatus);
@@ -123,12 +135,14 @@ public final class MainActivity extends AppCompatActivity {
         mergeSpinner = findViewById(R.id.mergeSpinner);
         transparentSpinner = findViewById(R.id.transparentSpinner);
         ditherSwitch = findViewById(R.id.ditherSwitch);
+        showNumbersSwitch = findViewById(R.id.showNumbersSwitch);
         sharpnessSeek = findViewById(R.id.sharpnessSeek);
         brightnessSeek = findViewById(R.id.brightnessSeek);
         contrastSeek = findViewById(R.id.contrastSeek);
         saturationSeek = findViewById(R.id.saturationSeek);
         tapDelaySeek = findViewById(R.id.tapDelaySeek);
         exportButton = findViewById(R.id.exportButton);
+        editButton = findViewById(R.id.editButton);
         cropButton = findViewById(R.id.cropButton);
         prepareButton = findViewById(R.id.prepareButton);
         overlayPermissionButton = findViewById(R.id.overlayPermissionButton);
@@ -158,6 +172,24 @@ public final class MainActivity extends AppCompatActivity {
                 uri -> {
                     if (uri != null) {
                         exportPreview(uri);
+                    }
+                }
+        );
+        pixelEditor = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    Intent data = result.getData();
+                    if (result.getResultCode() != RESULT_OK || data == null) {
+                        return;
+                    }
+                    int[] edited = data.getIntArrayExtra(PixelEditorActivity.EXTRA_PATTERN);
+                    try {
+                        setProcessedPattern(
+                                ProcessedPattern.fromPaletteIndices(edited),
+                                R.string.status_edited
+                        );
+                    } catch (IllegalArgumentException exception) {
+                        Toast.makeText(this, R.string.editor_invalid_pattern, Toast.LENGTH_LONG).show();
                     }
                 }
         );
@@ -211,7 +243,12 @@ public final class MainActivity extends AppCompatActivity {
                 imageExporter.launch("arkpaint_24x24.png");
             }
         });
+        editButton.setOnClickListener(view -> openPixelEditor());
         cropButton.setOnClickListener(view -> showCropEditor());
+        showNumbersSwitch.setChecked(true);
+        showNumbersSwitch.setOnCheckedChangeListener(
+                (buttonView, checked) -> previewView.setShowNumbers(checked)
+        );
         ditherSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> scheduleProcessing());
         sharpnessValue.setText(String.valueOf(sharpnessSeek.getProgress()));
         sharpnessSeek.setOnSeekBarChangeListener(new SimpleSeekListener() {
@@ -266,8 +303,14 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     private void loadImage(Uri uri) {
+        loadImage(uri, true, true);
+    }
+
+    private void loadImage(Uri uri, boolean openCropEditor, boolean processAfterLoad) {
         sourceUri = uri;
-        imageStatus.setText(R.string.processing_image);
+        if (processAfterLoad) {
+            imageStatus.setText(R.string.processing_image);
+        }
         int request = imageLoadGeneration.incrementAndGet();
         processingGeneration.incrementAndGet();
         worker.execute(() -> {
@@ -281,8 +324,12 @@ public final class MainActivity extends AppCompatActivity {
                     sourceBitmap = loaded;
                     croppedBitmap = CropImageView.createCenterSquare(loaded);
                     cropButton.setEnabled(true);
-                    scheduleProcessing();
-                    showCropEditor();
+                    if (processAfterLoad) {
+                        scheduleProcessing();
+                    }
+                    if (openCropEditor) {
+                        showCropEditor();
+                    }
                 });
             } catch (IOException | RuntimeException exception) {
                 runOnUiThread(() -> {
@@ -391,16 +438,33 @@ public final class MainActivity extends AppCompatActivity {
             result.getPreview().recycle();
             return;
         }
+        setProcessedPattern(result, R.string.status_ready);
+    }
+
+    private void setProcessedPattern(ProcessedPattern result, int statusText) {
         if (processedPattern != null && processedPattern.getPreview() != result.getPreview()) {
             processedPattern.getPreview().recycle();
         }
         processedPattern = result;
-        previewView.setPattern(result.getPaletteIndices());
-        imageStatus.setText(R.string.status_ready);
+        int[] indices = result.getPaletteIndices();
+        previewView.setPattern(indices);
+        paletteUsageView.setPattern(indices);
+        imageStatus.setText(statusText);
         colorCount.setText(String.format(Locale.ROOT, "%02d COLORS", result.getColorCount()));
         exportButton.setEnabled(true);
+        editButton.setEnabled(true);
         prepareButton.setEnabled(true);
         persistPattern();
+    }
+
+    private void openPixelEditor() {
+        if (processedPattern == null) {
+            Toast.makeText(this, R.string.editor_no_pattern, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, PixelEditorActivity.class)
+                .putExtra(PixelEditorActivity.EXTRA_PATTERN, processedPattern.getPaletteIndices());
+        pixelEditor.launch(intent);
     }
 
     private ProcessingOptions readOptions() {
@@ -559,24 +623,7 @@ public final class MainActivity extends AppCompatActivity {
         if (stored == null) {
             return;
         }
-        int[] colors = new int[stored.length];
-        boolean[] used = new boolean[Palette.size()];
-        int count = 0;
-        for (int index = 0; index < stored.length; index++) {
-            colors[index] = Palette.COLORS[stored[index]];
-            if (!used[stored[index]]) {
-                used[stored[index]] = true;
-                count++;
-            }
-        }
-        Bitmap bitmap = Bitmap.createBitmap(24, 24, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(colors, 0, 24, 0, 0, 24, 24);
-        processedPattern = new ProcessedPattern(stored, bitmap);
-        previewView.setPattern(stored);
-        imageStatus.setText(R.string.status_ready);
-        colorCount.setText(String.format(Locale.ROOT, "%02d COLORS", count));
-        exportButton.setEnabled(true);
-        prepareButton.setEnabled(true);
+        setProcessedPattern(ProcessedPattern.fromPaletteIndices(stored), R.string.status_restored);
     }
 
     @Override
@@ -653,6 +700,25 @@ public final class MainActivity extends AppCompatActivity {
         spinner.setPopupBackgroundDrawable(new android.graphics.drawable.ColorDrawable(
                 ContextCompat.getColor(this, R.color.panel_raised)
         ));
+    }
+
+    private static void applySystemBarInsets(View root) {
+        int start = root.getPaddingStart();
+        int top = root.getPaddingTop();
+        int end = root.getPaddingEnd();
+        int bottom = root.getPaddingBottom();
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            Insets bars = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout()
+            );
+            view.setPaddingRelative(
+                    start + bars.left,
+                    top + bars.top,
+                    end + bars.right,
+                    bottom + bars.bottom
+            );
+            return windowInsets;
+        });
     }
 
     @Override

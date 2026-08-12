@@ -3,6 +3,7 @@ package com.eraser2333.arkpaint.ui;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -25,6 +26,7 @@ public final class PixelPreviewView extends View {
     private int[] indices;
     private ValueAnimator scanAnimator;
     private float scanProgress = -1f;
+    private boolean showNumbers = true;
 
     public PixelPreviewView(Context context) {
         this(context, null);
@@ -46,6 +48,11 @@ public final class PixelPreviewView extends View {
         }
         indices = paletteIndices == null ? null : Arrays.copyOf(paletteIndices, paletteIndices.length);
         updateAnimation();
+        invalidate();
+    }
+
+    public void setShowNumbers(boolean showNumbers) {
+        this.showNumbers = showNumbers;
         invalidate();
     }
 
@@ -96,9 +103,15 @@ public final class PixelPreviewView extends View {
             textPaint.setTextAlign(Paint.Align.LEFT);
         } else {
             float cell = side / 24f;
+            textPaint.setTextAlign(Paint.Align.CENTER);
+            textPaint.setTextSize(Math.min(cell * 0.42f, 10f * density));
+            Paint.FontMetrics metrics = textPaint.getFontMetrics();
+            float baselineOffset = -(metrics.ascent + metrics.descent) / 2f;
             for (int row = 0; row < 24; row++) {
                 for (int column = 0; column < 24; column++) {
-                    paint.setColor(Palette.COLORS[indices[row * 24 + column]]);
+                    int paletteIndex = indices[row * 24 + column];
+                    int color = Palette.COLORS[paletteIndex];
+                    paint.setColor(color);
                     float cellLeft = left + column * cell;
                     float cellTop = top + row * cell;
                     canvas.drawRect(
@@ -108,8 +121,18 @@ public final class PixelPreviewView extends View {
                             cellTop + cell + 0.5f,
                             paint
                     );
+                    if (showNumbers && cell >= 11f * density) {
+                        textPaint.setColor(contrastTextColor(color));
+                        canvas.drawText(
+                                Palette.number(paletteIndex),
+                                cellLeft + cell / 2f,
+                                cellTop + cell / 2f + baselineOffset,
+                                textPaint
+                        );
+                    }
                 }
             }
+            textPaint.setTextAlign(Paint.Align.LEFT);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(Math.max(0.5f, density * 0.55f));
             paint.setColor(0x5532464C);
@@ -168,6 +191,13 @@ public final class PixelPreviewView extends View {
             }
         }
         return count;
+    }
+
+    private static int contrastTextColor(int color) {
+        double luminance = 0.2126 * Color.red(color)
+                + 0.7152 * Color.green(color)
+                + 0.0722 * Color.blue(color);
+        return luminance > 155.0 ? 0xD9000000 : 0xEFFFFFFF;
     }
 
     private void updateAnimation() {

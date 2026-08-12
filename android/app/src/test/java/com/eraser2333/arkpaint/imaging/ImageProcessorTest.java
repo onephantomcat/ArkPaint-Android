@@ -22,6 +22,9 @@ public final class ImageProcessorTest {
         assertEquals("#FFFFFF", Palette.hex(Palette.WHITE_INDEX));
         assertEquals(0xFF222222, Palette.COLORS[0]);
         assertEquals(0xFF253660, Palette.COLORS[39]);
+        assertEquals("01", Palette.number(0));
+        assertEquals("40", Palette.number(39));
+        assertEquals("05  #D32F36", Palette.label(4));
     }
 
     @Test

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_eyebrow"
+            android:textAppearance="@style/TextAppearance.ArkPaint.Eyebrow" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/rhodes_cyan_container"
+            app:cardCornerRadius="999dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/rhodes_cyan_dim"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingTop="7dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="7dp"
+                android:text="@string/xiaomi_ready_badge"
+                android:textAppearance="@style/TextAppearance.ArkPaint.Utility"
+                android:textColor="@color/rhodes_cyan" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/app_title"
+        android:textAppearance="@style/TextAppearance.ArkPaint.Display"
+        android:textSize="38sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:maxWidth="760dp"
+        android:text="@string/app_subtitle"
+        android:textAppearance="@style/TextAppearance.ArkPaint.Body" />
+</LinearLayout>

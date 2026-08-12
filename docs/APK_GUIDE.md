@@ -6,16 +6,16 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文件名 | `ArkPaint-v1.0.5-XiaomiPad7-pause-fix.apk` |
-| 下载地址 | [GitHub Release](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.0.5) |
+| 文件名 | `ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk` |
+| 下载地址 | [GitHub Release](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.0) |
 | 应用名称 | ArkPaint |
 | 应用包名 | `com.eraser2333.arkpaint` |
-| versionName | `1.0.5-android` |
-| versionCode | `7` |
+| versionName | `1.1.0-android` |
+| versionCode | `8` |
 | 最低系统 | Android 11 / API 30 |
 | 目标系统 | Android 15 / API 35 |
-| 文件大小 | 14,113,782 字节（约 13.46 MiB） |
-| SHA-256 | `D7E3C532F567B2984A828B528D8B823E55821BCE1680722BA3E9A7323D3C9BCD` |
+| 文件大小 | 13,130,397 字节（约 12.52 MiB） |
+| SHA-256 | `520CC5498AC3108CD5859E275EF7DB9F70E664205A0922C1C22793A529D32A75` |
 
 该包优先在小米 Pad 7、HyperOS 2、3200×2136 横屏环境下适配，同时可以安装在满足最低系统要求的其他 Android 设备上；其他设备仍可能需要重新校准坐标。
 
@@ -30,7 +30,7 @@
 
 ## 安装步骤
 
-1. 从 [Release 页面](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.0.5) 下载 APK。
+1. 从 [Release 页面](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.0) 下载 APK。
 2. 在文件管理器或浏览器中打开 APK。
 3. 如果系统拦截，按提示允许当前文件管理器或浏览器“安装未知应用”。
 4. 确认应用名称为 ArkPaint 后完成安装。
@@ -72,13 +72,13 @@
 在 PowerShell 中运行：
 
 ```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath '.\ArkPaint-v1.0.5-XiaomiPad7-pause-fix.apk'
+Get-FileHash -Algorithm SHA256 -LiteralPath '.\ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk'
 ```
 
 输出必须与下面的值完全一致：
 
 ```text
-D7E3C532F567B2984A828B528D8B823E55821BCE1680722BA3E9A7323D3C9BCD
+520CC5498AC3108CD5859E275EF7DB9F70E664205A0922C1C22793A529D32A75
 ```
 
 如果不一致，请删除该文件并重新从 GitHub Release 下载，不要继续安装。

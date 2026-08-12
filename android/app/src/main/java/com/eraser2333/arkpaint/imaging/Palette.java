@@ -34,11 +34,21 @@ public final class Palette {
     }
 
     public static String hex(int index) {
+        requireValidIndex(index);
         return HEX_VALUES[index];
     }
 
+    /**
+     * Returns the two-digit number used by ArkPaint for the in-game palette order.
+     * The game presents four swatches per row; numbering runs left-to-right, then top-to-bottom.
+     */
+    public static String number(int index) {
+        requireValidIndex(index);
+        return String.format(Locale.ROOT, "%02d", index + 1);
+    }
+
     public static String label(int index) {
-        return String.format(Locale.ROOT, "%02d  %s", index + 1, HEX_VALUES[index]);
+        return number(index) + "  " + hex(index);
     }
 
     public static String[] labels() {
@@ -47,5 +57,11 @@ public final class Palette {
             labels[index] = label(index);
         }
         return labels;
+    }
+
+    public static void requireValidIndex(int index) {
+        if (index < 0 || index >= size()) {
+            throw new IllegalArgumentException("Palette index must be between 0 and 39");
+        }
     }
 }

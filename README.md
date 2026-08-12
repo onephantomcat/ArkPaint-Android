@@ -4,12 +4,14 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 
 本版本优先兼容 **小米 Pad 7 / HyperOS 2（Android 15）**，不需要电脑、ADB 或 root，也不申请网络权限。
 
+当前源码版为 `1.1.0-android`（versionCode `8`）：主界面已改为适配平板横屏的 Material 3 双栏工作台，新增游戏调色板顺序色号、用色统计和逐格手动像素编辑器。完整改动见 [v1.1.0 版本说明](docs/releases/android-v1.1.0.md)。
+
 ## 直接下载
 
-- **APK：** [ArkPaint-v1.0.5-XiaomiPad7-pause-fix.apk](https://github.com/onephantomcat/ArkPaint-Android/releases/download/android-v1.0.5/ArkPaint-v1.0.5-XiaomiPad7-pause-fix.apk)
-- **版本：** `1.0.5-android`（versionCode `7`）
+- **APK：** [ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk](https://github.com/onephantomcat/ArkPaint-Android/releases/download/android-v1.1.0/ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk)
+- **版本：** `1.1.0-android`（versionCode `8`）
 - **系统要求：** Android 11（API 30）及以上
-- **SHA-256：** `D7E3C532F567B2984A828B528D8B823E55821BCE1680722BA3E9A7323D3C9BCD`
+- **SHA-256：** `520CC5498AC3108CD5859E275EF7DB9F70E664205A0922C1C22793A529D32A75`
 
 > 当前公开 APK 使用 Android Debug 证书和 APK Signature Scheme v2 签名，定位为测试侧载包。安装、升级和签名注意事项见 [APK 安装与校验说明](docs/APK_GUIDE.md)。
 
@@ -17,7 +19,7 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 
 1. 安装 APK，打开 ArkPaint 并点击“导入图片”。
 2. 在裁剪器中单指拖动、双指缩放，点击“使用此区域”。
-3. 调整清晰度和颜色参数，点击“保存给绘制器”。
+3. 调整清晰度和颜色参数；需要时进入“手动修整”逐格修改，再点击“保存给绘制器”。
 4. 小米设备先开启“悬浮窗权限（备用）”，再开启“ArkPaint 悬浮绘制器”无障碍服务。
 5. 进入横屏画像册创作页，把 24×24 画布缩到最小并把调色板滚到顶部。
 6. 在悬浮条依次执行“校准”→“验证”→“绘制”。绘制中可暂停、继续或停止。
@@ -30,6 +32,7 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 - [APK 安装、升级、签名与 SHA-256 校验](docs/APK_GUIDE.md)
 - [软件完整使用说明](docs/USER_GUIDE.md)
 - [Android 源码构建说明](android/README.md)
+- [v1.1.0 版本说明](docs/releases/android-v1.1.0.md)
 - [v1.0.5 发布说明](docs/releases/android-v1.0.5.md)
 
 ## Android 版能力
@@ -38,6 +41,8 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 - 可拖动和双指缩放的方形裁剪，也可选择整图拉伸
 - 分级 Lanczos 清晰缩放、可调锐化、亮度、对比度和饱和度
 - RGB、加权 RGB、CIE Lab、CIEDE2000、OKLab 五种 40 色映射
+- 按游戏内四列调色板顺序显示 `01`～`40` 色号与每色用量
+- 手动逐格上色、拖动连续绘制、吸色、撤销/重做和恢复自动转换结果
 - 1×1～4×4 像素合并、透明底色和 Floyd–Steinberg 抖动
 - 五点坐标校准、截图验证、调色板页识别和白色格跳过
 - 真正的暂停/继续、独立停止按钮与“音量减”紧急停止

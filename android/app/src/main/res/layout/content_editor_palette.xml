@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.ArkPaint.Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/editor_palette_eyebrow"
+                android:textAppearance="@style/TextAppearance.ArkPaint.Eyebrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/editor_palette_title"
+                android:textAppearance="@style/TextAppearance.ArkPaint.Section" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/palette_order_explainer"
+                android:textAppearance="@style/TextAppearance.ArkPaint.Body" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_status_panel"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/selectedColorSwatch"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:contentDescription="@string/editor_selected_swatch"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/grid"
+                    app:strokeWidth="1dp" />
+
+                <TextView
+                    android:id="@+id/selectedColorLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/editor_selected_color_initial"
+                    android:textColor="@color/paper"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <com.eraser2333.arkpaint.ui.OfficialPaletteView
+                android:id="@+id/officialPalette"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/editor_palette_height"
+                android:layout_marginTop="12dp"
+                android:contentDescription="@string/official_palette_description" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editorResetButton"
+                style="@style/Widget.ArkPaint.SecondaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="@string/editor_reset" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editorSaveButton"
+                style="@style/Widget.ArkPaint.PrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/editor_apply" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editorCancelButton"
+                style="@style/Widget.ArkPaint.SecondaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/cancel" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

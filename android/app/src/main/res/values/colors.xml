@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ink">#0E171A</color>
-    <color name="panel">#172329</color>
-    <color name="panel_raised">#1E2F35</color>
-    <color name="grid">#2D4248</color>
-    <color name="rhodes_cyan">#2CC3CF</color>
-    <color name="rhodes_cyan_dim">#177985</color>
-    <color name="paper">#EAF3F1</color>
-    <color name="muted">#8EA4A8</color>
-    <color name="signal">#F26A52</color>
-    <color name="success">#59D097</color>
+    <color name="ink">#071113</color>
+    <color name="panel">#0D1A1E</color>
+    <color name="panel_raised">#14272D</color>
+    <color name="surface_container_low">#0F2025</color>
+    <color name="surface_container">#14272D</color>
+    <color name="surface_container_high">#1B3138</color>
+    <color name="grid">#36515A</color>
+    <color name="outline_variant">#29434B</color>
+    <color name="pixel_grid">#55304750</color>
+    <color name="pixel_grid_strong">#A04B6972</color>
+    <color name="rhodes_cyan">#63DCE7</color>
+    <color name="rhodes_cyan_dim">#237E89</color>
+    <color name="rhodes_cyan_container">#113B42</color>
+    <color name="paper">#E5F1F2</color>
+    <color name="muted">#9BB3B7</color>
+    <color name="signal">#FFB4A2</color>
+    <color name="success">#7EE1B2</color>
 </resources>

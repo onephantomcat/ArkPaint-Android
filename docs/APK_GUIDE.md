@@ -6,18 +6,18 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文件名 | `ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk` |
-| 下载地址 | [GitHub Release](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.0) |
+| 文件名 | `ArkPaint-v1.1.1-iQOO-OriginOS-calibration-fix-debug.apk` |
+| 下载地址 | [GitHub Release](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.1) |
 | 应用名称 | ArkPaint |
 | 应用包名 | `com.eraser2333.arkpaint` |
-| versionName | `1.1.0-android` |
-| versionCode | `8` |
+| versionName | `1.1.1-android` |
+| versionCode | `9` |
 | 最低系统 | Android 11 / API 30 |
 | 目标系统 | Android 15 / API 35 |
-| 文件大小 | 13,130,397 字节（约 12.52 MiB） |
-| SHA-256 | `520CC5498AC3108CD5859E275EF7DB9F70E664205A0922C1C22793A529D32A75` |
+| 文件大小 | 13,133,151 字节（约 12.52 MiB） |
+| SHA-256 | `E907AA86657015CC06E90E2269EE455EA0CEDB08C51B0597EA741C22D457BD39` |
 
-该包优先在小米 Pad 7、HyperOS 2、3200×2136 横屏环境下适配，同时可以安装在满足最低系统要求的其他 Android 设备上；其他设备仍可能需要重新校准坐标。
+该包优先在小米 Pad 7、HyperOS 2、3200×2136 横屏环境下适配，并加入 iQOO / OriginOS 的系统栏、安全区与截图坐标换算兼容；其他设备首次使用仍需执行五点校准。
 
 ## 签名说明
 
@@ -30,7 +30,7 @@
 
 ## 安装步骤
 
-1. 从 [Release 页面](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.0) 下载 APK。
+1. 从 [Release 页面](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.1) 下载 APK。
 2. 在文件管理器或浏览器中打开 APK。
 3. 如果系统拦截，按提示允许当前文件管理器或浏览器“安装未知应用”。
 4. 确认应用名称为 ArkPaint 后完成安装。
@@ -43,7 +43,7 @@
 1. 先在系统无障碍设置中关闭旧版“ArkPaint 悬浮绘制器”。
 2. 直接打开新 APK 尝试覆盖安装。
 3. 如果提示签名冲突，记录当前参数后卸载旧版，再安装新版本。
-4. 打开新版本，重新开启小米悬浮窗备用权限和无障碍服务。
+4. 打开新版本，重新开启厂商系统悬浮窗备用权限和无障碍服务。
 5. 若系统分辨率、显示缩放或导航栏布局发生变化，请重新执行五点校准。
 
 ## 权限用途
@@ -59,7 +59,7 @@
 
 ### 显示在其他应用上层
 
-这是小米 / HyperOS 的备用悬浮窗通道。当厂商系统拒绝标准无障碍悬浮层时，用于显示控制条。非小米设备如果标准悬浮条正常，可以不授予。
+这是小米 / HyperOS、iQOO / OriginOS 等厂商系统的备用悬浮窗通道。当系统拒绝标准无障碍悬浮层时，用于显示控制条；如果标准悬浮条正常，可以不授予。
 
 ### 网络与文件
 
@@ -72,13 +72,13 @@
 在 PowerShell 中运行：
 
 ```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath '.\ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk'
+Get-FileHash -Algorithm SHA256 -LiteralPath '.\ArkPaint-v1.1.1-iQOO-OriginOS-calibration-fix-debug.apk'
 ```
 
 输出必须与下面的值完全一致：
 
 ```text
-520CC5498AC3108CD5859E275EF7DB9F70E664205A0922C1C22793A529D32A75
+E907AA86657015CC06E90E2269EE455EA0CEDB08C51B0597EA741C22D457BD39
 ```
 
 如果不一致，请删除该文件并重新从 GitHub Release 下载，不要继续安装。

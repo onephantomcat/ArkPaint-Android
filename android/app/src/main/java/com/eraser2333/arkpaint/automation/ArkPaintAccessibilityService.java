@@ -408,6 +408,7 @@ public final class ArkPaintAccessibilityService extends AccessibilityService {
             setStatus(R.string.verification_not_landscape);
             return;
         }
+        Rect coordinateBounds = new Rect(displayBounds);
         recentVerification = null;
         controllerView.setVisibility(View.GONE);
         Context calibrationContext = overlayContext == null ? this : overlayContext;
@@ -416,26 +417,8 @@ public final class ArkPaintAccessibilityService extends AccessibilityService {
                 new CalibrationOverlayView.Callback() {
             @Override
             public void onCompleted(List<PointF> points) {
-                int width = calibrationOverlay.getWidth();
-                int height = calibrationOverlay.getHeight();
-                Calibration calibration = Calibration.fromFivePoints(
-                        width,
-                        height,
-                        points.get(0),
-                        points.get(1),
-                        points.get(2),
-                        points.get(3),
-                        points.get(4)
-                );
                 finishCalibrationOverlay();
-                if (!calibration.isValid()) {
-                    setStatus(R.string.calibration_invalid);
-                    return;
-                }
-                patternStore.saveCalibration(calibration);
-                recentVerification = null;
-                setStatus(R.string.calibration_done);
-                refreshControllerButtonsOnly();
+                completeCalibration(coordinateBounds, points);
             }
 
             @Override
@@ -449,11 +432,13 @@ public final class ArkPaintAccessibilityService extends AccessibilityService {
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 controllerWindowType,
-                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                 PixelFormat.TRANSLUCENT
         );
         params.gravity = Gravity.TOP | Gravity.START;
+        params.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
+        params.setFitInsetsTypes(0);
         try {
             windowManager.addView(calibrationOverlay, params);
         } catch (RuntimeException exception) {
@@ -475,6 +460,77 @@ public final class ArkPaintAccessibilityService extends AccessibilityService {
         if (controllerView != null) {
             controllerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void completeCalibration(Rect coordinateBounds, List<PointF> screenPoints) {
+        if (screenPoints.size() != 5 || !beginJob(false)) {
+            setStatus(R.string.calibration_invalid);
+            refreshControllerButtonsOnly();
+            return;
+        }
+        setStatus(R.string.calibration_finishing);
+        worker.execute(() -> {
+            Bitmap screenshot = null;
+            try {
+                screenshot = captureScreenshotBlocking();
+                Calibration calibration = calibrationForScreenshot(
+                        coordinateBounds,
+                        screenPoints,
+                        screenshot.getWidth(),
+                        screenshot.getHeight()
+                );
+                if (!calibration.isValid()) {
+                    setStatus(R.string.calibration_invalid);
+                    return;
+                }
+                patternStore.saveCalibration(calibration);
+                recentVerification = null;
+                setStatus(R.string.calibration_done);
+            } catch (CancelledException exception) {
+                setStatus(R.string.calibration_cancelled);
+            } catch (Exception exception) {
+                setError(exception);
+            } finally {
+                if (screenshot != null) {
+                    screenshot.recycle();
+                }
+                endJob();
+            }
+        });
+    }
+
+    private static Calibration calibrationForScreenshot(
+            Rect coordinateBounds,
+            List<PointF> screenPoints,
+            int screenshotWidth,
+            int screenshotHeight
+    ) {
+        List<PointF> mapped = new ArrayList<>(screenPoints.size());
+        for (PointF point : screenPoints) {
+            mapped.add(new PointF(
+                    ScreenCoordinateMapper.mapAxis(
+                            point.x,
+                            coordinateBounds.left,
+                            coordinateBounds.width(),
+                            screenshotWidth
+                    ),
+                    ScreenCoordinateMapper.mapAxis(
+                            point.y,
+                            coordinateBounds.top,
+                            coordinateBounds.height(),
+                            screenshotHeight
+                    )
+            ));
+        }
+        return Calibration.fromFivePoints(
+                screenshotWidth,
+                screenshotHeight,
+                mapped.get(0),
+                mapped.get(1),
+                mapped.get(2),
+                mapped.get(3),
+                mapped.get(4)
+        );
     }
 
     private void verifyCurrentLayout() {

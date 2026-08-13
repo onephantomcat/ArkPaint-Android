@@ -4,14 +4,14 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 
 本版本优先兼容 **小米 Pad 7 / HyperOS 2（Android 15）**，不需要电脑、ADB 或 root，也不申请网络权限。
 
-当前源码版为 `1.1.0-android`（versionCode `8`）：主界面已改为适配平板横屏的 Material 3 双栏工作台，新增游戏调色板顺序色号、用色统计和逐格手动像素编辑器。完整改动见 [v1.1.0 版本说明](docs/releases/android-v1.1.0.md)。
+当前版本为 `1.1.1-android`（versionCode `9`）：在 v1.1.0 的平板工作台、色号标定和手动像素编辑器基础上，修复 iQOO / OriginOS 悬浮层与系统截图坐标比例不一致导致的反复校准失败。完整改动见 [v1.1.1 版本说明](docs/releases/android-v1.1.1.md)。
 
 ## 直接下载
 
-- **APK：** [ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk](https://github.com/onephantomcat/ArkPaint-Android/releases/download/android-v1.1.0/ArkPaint-v1.1.0-XiaomiPad7-pixel-editor-debug.apk)
-- **版本：** `1.1.0-android`（versionCode `8`）
+- **APK：** [ArkPaint-v1.1.1-iQOO-OriginOS-calibration-fix-debug.apk](https://github.com/onephantomcat/ArkPaint-Android/releases/download/android-v1.1.1/ArkPaint-v1.1.1-iQOO-OriginOS-calibration-fix-debug.apk)
+- **版本：** `1.1.1-android`（versionCode `9`）
 - **系统要求：** Android 11（API 30）及以上
-- **SHA-256：** `520CC5498AC3108CD5859E275EF7DB9F70E664205A0922C1C22793A529D32A75`
+- **SHA-256：** `E907AA86657015CC06E90E2269EE455EA0CEDB08C51B0597EA741C22D457BD39`
 
 > 当前公开 APK 使用 Android Debug 证书和 APK Signature Scheme v2 签名，定位为测试侧载包。安装、升级和签名注意事项见 [APK 安装与校验说明](docs/APK_GUIDE.md)。
 
@@ -20,7 +20,7 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 1. 安装 APK，打开 ArkPaint 并点击“导入图片”。
 2. 在裁剪器中单指拖动、双指缩放，点击“使用此区域”。
 3. 调整清晰度和颜色参数；需要时进入“手动修整”逐格修改，再点击“保存给绘制器”。
-4. 小米设备先开启“悬浮窗权限（备用）”，再开启“ArkPaint 悬浮绘制器”无障碍服务。
+4. 小米、iQOO 等厂商设备先开启“厂商系统悬浮窗权限（备用）”，再开启“ArkPaint 悬浮绘制器”无障碍服务。
 5. 进入横屏画像册创作页，把 24×24 画布缩到最小并把调色板滚到顶部。
 6. 在悬浮条依次执行“校准”→“验证”→“绘制”。绘制中可暂停、继续或停止。
 7. 核对完成后，由用户自行点击游戏中的“保存”或“完成并发布”。
@@ -32,6 +32,7 @@ ArkPaint 的原生 Android 适配版，可在设备本地把图片转换为 24×
 - [APK 安装、升级、签名与 SHA-256 校验](docs/APK_GUIDE.md)
 - [软件完整使用说明](docs/USER_GUIDE.md)
 - [Android 源码构建说明](android/README.md)
+- [v1.1.1 版本说明](docs/releases/android-v1.1.1.md)
 - [v1.1.0 版本说明](docs/releases/android-v1.1.0.md)
 - [v1.0.5 发布说明](docs/releases/android-v1.0.5.md)
 

@@ -2,9 +2,10 @@
 
 这是 ArkPaint 的原生 Android 版本，可直接构建为 APK 并安装到手机。图像处理、截图和自动绘制均在设备本地完成；应用没有声明网络权限。
 
-当前测试版本为 `1.1.0-android`（versionCode `8`）：
+当前公开测试版本为 `1.1.1-android`（versionCode `9`）：
 
-- [下载 ArkPaint Android v1.1.0](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.0)
+- [下载 ArkPaint Android v1.1.1](https://github.com/onephantomcat/ArkPaint-Android/releases/tag/android-v1.1.1)
+- [查看 v1.1.1 iQOO / OriginOS 修复说明](../docs/releases/android-v1.1.1.md)
 - [查看 v1.1.0 版本说明](../docs/releases/android-v1.1.0.md)
 - [APK 安装与校验说明](../docs/APK_GUIDE.md)
 - [软件完整使用说明](../docs/USER_GUIDE.md)
@@ -58,6 +59,8 @@ cd android
 
 校准会按屏幕比例保存。系统分辨率、显示缩放或导航栏布局明显变化后，需要重新校准。
 
+在 iQOO / OriginOS 上，v1.1.1 会使用触摸事件的原始屏幕坐标，并在第五点完成后按无障碍截图的实际尺寸换算校准值，避免悬浮层因状态栏、导航栏或挖孔安全区尺寸不同而反复提示“屏幕方向或比例已改变”。升级后需要重新校准一次。
+
 ## 小米 Pad / HyperOS 2
 
 本版本以小米 Pad 7（HyperOS 2 / Android 15）为优先兼容目标：悬浮绘制器会延迟启动并自动重试；若系统拒绝标准无障碍悬浮层，会改用“显示在其他应用上层”的备用通道。针对 3200×2136 画面，网格验证会搜索抗锯齿线条边缘，并在误点游戏外侧角标时自动校正到白色画布边界。
@@ -65,7 +68,7 @@ cd android
 首次安装或从旧版升级后建议按以下顺序操作：
 
 1. 先在系统无障碍设置中关闭旧版“ArkPaint 悬浮绘制器”。
-2. 安装修复版并打开 ArkPaint，点击“小米 / HyperOS 悬浮窗权限（备用）”，允许显示悬浮窗。
+2. 安装修复版并打开 ArkPaint，点击“厂商系统悬浮窗权限（备用）”，允许显示悬浮窗。
 3. 回到 ArkPaint，点击“开启无障碍服务”，重新打开服务开关。
 4. 返回应用；状态应显示“绘制器已启用，悬浮条正常”。如果没有出现，点击“显示 / 重试悬浮条”。
 

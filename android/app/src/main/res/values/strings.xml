@@ -4,7 +4,7 @@
     <string name="app_eyebrow">ARK / PAINT · RHODES WORKBENCH</string>
     <string name="app_title">24×24 像素作战台</string>
     <string name="app_subtitle">导入与裁剪图片，按游戏调色板转换、逐格校对，再交给悬浮绘制器落到画像册。</string>
-    <string name="xiaomi_ready_badge">XIAOMI PAD READY</string>
+    <string name="xiaomi_ready_badge">ANDROID 11+ READY</string>
     <string name="workbench_eyebrow">01 / PATTERN WORKBENCH</string>
     <string name="workbench_title">转换与逐格校对</string>
     <string name="workbench_subtitle">预览中可直接显示色号；转换完成后进入手动编辑器修正任意像素。</string>
@@ -56,8 +56,8 @@
     <string name="automation_title">悬浮绘制器</string>
     <string name="automation_explainer">开启无障碍服务后，进入横屏画像册。首次把调色板滚到最顶端并校准五个坐标；以后点“绘制”会自动确认调色板位置、续画未完成格并核对补画。绘制中可原地暂停/继续，也可独立停止。</string>
     <string name="open_accessibility">开启无障碍服务</string>
-    <string name="overlay_permission_xiaomi">小米 / HyperOS 悬浮窗权限（备用）</string>
-    <string name="overlay_permission_granted">小米悬浮窗备用权限已开启</string>
+    <string name="overlay_permission_xiaomi">厂商系统悬浮窗权限（备用）</string>
+    <string name="overlay_permission_granted">悬浮窗备用权限已开启</string>
     <string name="show_overlay">显示 / 重试悬浮条</string>
     <string name="overlay_retry_sent">已请求重新显示悬浮条</string>
     <string name="service_restart_required">系统显示服务已开启但实际未运行。请先关闭开关，再重新开启。</string>
@@ -104,6 +104,8 @@
     <string name="calibration_step_palette_tr">4 / 5　点击调色板第一行第四列色块中心</string>
     <string name="calibration_step_palette_bl">5 / 5　点击调色板第六行第一列色块中心</string>
     <string name="calibration_done">校准完成；验证时会自动贴合画布边缘</string>
+    <string name="calibration_finishing">正在匹配当前设备的截图比例…</string>
+    <string name="calibration_cancelled">校准已取消</string>
     <string name="calibration_invalid">坐标不合理，请确认横屏且按提示重新校准</string>
     <string name="calibration_missing">尚未校准。先把调色板滚到最顶端，再点“校准”。</string>
     <string name="calibration_resolution_changed">屏幕方向或比例已改变，请重新校准</string>
@@ -112,7 +114,7 @@
     <string name="status_zero_colors">00 COLORS</string>
     <string name="tap_delay_default">50 ms</string>
     <string name="service_disclosure_title">启用前请确认</string>
-    <string name="service_disclosure">ArkPaint 会使用无障碍服务截取当前画面，并按你生成的固定图案执行点击和滑动。操作仅在你点击悬浮条“绘制”后开始，可随时暂停、继续或停止；截图不会上传或离开设备。小米 / HyperOS 设备建议同时开启应用内的悬浮窗备用权限。</string>
+    <string name="service_disclosure">ArkPaint 会使用无障碍服务截取当前画面，并按你生成的固定图案执行点击和滑动。操作仅在你点击悬浮条“绘制”后开始，可随时暂停、继续或停止；截图不会上传或离开设备。小米、iQOO 等厂商系统建议同时开启应用内的悬浮窗备用权限。</string>
     <string name="continue_to_settings">我明白，打开设置</string>
     <string name="cancel">取消</string>
 

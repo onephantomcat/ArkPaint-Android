@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -18,6 +19,8 @@ import java.util.List;
 
 @android.annotation.SuppressLint("ViewConstructor")
 final class CalibrationOverlayView extends View {
+    private static final long INITIAL_TOUCH_GUARD_MS = 300L;
+
     interface Callback {
         void onCompleted(List<PointF> points);
 
@@ -34,13 +37,16 @@ final class CalibrationOverlayView extends View {
 
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final List<PointF> points = new ArrayList<>();
+    private final List<PointF> screenPoints = new ArrayList<>();
     private final Callback callback;
     private final RectF cancelBounds = new RectF();
     private final RectF instructionBounds = new RectF();
+    private final long acceptTouchesAfterMs;
 
     CalibrationOverlayView(Context context, Callback callback) {
         super(context);
         this.callback = callback;
+        acceptTouchesAfterMs = SystemClock.uptimeMillis() + INITIAL_TOUCH_GUARD_MS;
         setBackgroundColor(Color.TRANSPARENT);
     }
 
@@ -129,14 +135,18 @@ final class CalibrationOverlayView extends View {
         if (event.getActionMasked() != MotionEvent.ACTION_UP) {
             return true;
         }
+        if (event.getEventTime() < acceptTouchesAfterMs) {
+            return true;
+        }
         if (cancelBounds.contains(event.getX(), event.getY())) {
             callback.onCancelled();
             return true;
         }
         points.add(new PointF(event.getX(), event.getY()));
+        screenPoints.add(new PointF(event.getRawX(), event.getRawY()));
         performClick();
         if (points.size() == STEP_LABELS.length) {
-            callback.onCompleted(new ArrayList<>(points));
+            callback.onCompleted(new ArrayList<>(screenPoints));
         } else {
             invalidate();
         }
